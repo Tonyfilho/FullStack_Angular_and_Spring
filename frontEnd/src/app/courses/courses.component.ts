@@ -3,10 +3,10 @@ import { ICoursesModel } from '../_models/courses-model';
 
 @Component({
   selector: 'app-coursers',
-  templateUrl: './coursers.component.html',
-  styleUrls: ['./coursers.component.scss']
+  templateUrl: './courses.component.html',
+  styleUrls: ['./courses.component.scss']
 })
-export class CoursersComponent {
+export class CoursesComponent {
 
   displayedColumns = ['name', 'category']; //collun names
   coursesList: ICoursesModel[] = [{_id: '1', name: 'Angular', category: 'frontend'}];

@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatTableModule } from '@angular/material/table';
 import { RouterModule, Routes } from '@angular/router';
-import { CoursersComponent } from './coursers.component';
+import { CoursesComponent } from './courses.component';
 
 const ROUTERS_COURSES: Routes = [
   {path:"", redirectTo:"coursers"}
@@ -10,7 +10,7 @@ const ROUTERS_COURSES: Routes = [
 
 @NgModule({
   declarations: [
-    CoursersComponent
+    CoursesComponent
   ],
   imports: [
     CommonModule,
