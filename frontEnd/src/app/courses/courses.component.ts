@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ICoursesModel } from '../_models/courses-model';
+import { ICoursesModel } from '../_share/_models/courses-model';
 
 @Component({
   selector: 'app-coursers',
