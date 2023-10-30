@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AppMaterialModule } from '../_share/app-material/app-material.module';
 import { CoursesComponent } from './courses.component';
+import { HttpClientModule } from '@angular/common/http';
 
 
 
@@ -18,7 +19,8 @@ const ROUTERS_COURSES: Routes = [
   ],
   imports: [
     CommonModule,
-    AppMaterialModule ,
+    AppMaterialModule,
+    HttpClientModule,
 
     RouterModule.forChild(ROUTERS_COURSES),
   ]
