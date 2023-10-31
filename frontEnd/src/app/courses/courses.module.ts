@@ -4,7 +4,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { AppMaterialModule } from '../_share/app-material/app-material.module';
 import { CoursesComponent } from './courses.component';
 import { HttpClientModule } from '@angular/common/http';
-import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { SharedModule } from '../_share/shared.module';
+
 
 
 
@@ -21,10 +22,8 @@ const ROUTERS_COURSES: Routes = [
   imports: [
     CommonModule,
     AppMaterialModule,
-    MatProgressSpinnerModule,
     HttpClientModule,
-
-
+    SharedModule,
     RouterModule.forChild(ROUTERS_COURSES),
   ]
 })
