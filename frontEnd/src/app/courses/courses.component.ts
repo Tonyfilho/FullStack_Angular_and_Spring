@@ -11,10 +11,10 @@ import { CoursesService } from './courses.service';
 export class CoursesComponent {
 
   displayedColumns = ['name', 'category']; //collun names
-  coursesList!: Observable<ICoursesModel[]>;
+  coursesList$!: Observable<ICoursesModel[]>;
 
   constructor(private courseService: CoursesService) {
-     this.coursesList = this.courseService.list();
+     this.coursesList$ = this.courseService.list();
   }
 
 }

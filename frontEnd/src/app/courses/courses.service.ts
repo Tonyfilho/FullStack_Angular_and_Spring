@@ -1,8 +1,8 @@
 import { RouterTestingModule } from '@angular/router/testing';
 import { ICoursesModel } from './../_share/_models/iCourses-model';
-import { Injectable } from '@angular/core';
+import { ErrorHandler, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http'
-import { Observable, from, tap } from 'rxjs';
+import { Observable, catchError, delay, first, from, of, reduce, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +14,15 @@ export class CoursesService {
 
     list() {
       return this.http.get<ICoursesModel[]>(this.API)
-      .pipe(tap( localCourses => console.log(localCourses) ));
+      .pipe(
+        first(), //just get 1 subscrition, after that close the conection
+        delay(3000), // create a delay to see the spinner in front 3s
+        tap( localCourses => console.log(localCourses)), catchError(e => {
+          /**Precisamos devolver um observable, mesmo q seja um Array vasio */
+          console.error("Error Course: ", e)
+          return of([])
+        }))
+
     }
 
 
