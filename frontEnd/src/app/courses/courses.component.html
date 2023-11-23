@@ -16,10 +16,15 @@
       <ng-container matColumnDef="category">
         <th mat-header-cell *matHeaderCellDef>Category</th>
         <td mat-cell *matCellDef="let item">
-          {{ item.category }}
-          <!-- add icone usando o PIPE usando para transformar um valor -->
-          <mat-icon aria-hidden="false" aria-label="Course Category" fontIcon="{{ item.category | category}}"></mat-icon>
-
+          <div class="td-align">
+            {{ item.category }}
+            <!-- add icone usando o PIPE usando para transformar um valor -->
+            <mat-icon
+              aria-hidden="false"
+              aria-label="Course Category"
+              fontIcon="{{ item.category | category }}"
+            ></mat-icon>
+          </div>
         </td>
       </ng-container>
 
