@@ -1,13 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { catchError, delay, first, of, tap } from 'rxjs';
-import { IErrorsHttpModel } from '../_share/_models/iErrorsHttp-model';
-import { ErrorDialogComponent } from '../_share/components-material/error-dialog/error-dialog.component';
+import { tap } from 'rxjs';
 import { ICoursesModel } from './../_share/_models/iCourses-model';
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http'
-import { Observable, first, from, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
