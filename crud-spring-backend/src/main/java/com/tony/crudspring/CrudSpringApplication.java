@@ -23,7 +23,7 @@ public class CrudSpringApplication {
                courseRepository.deleteAll(); // limpando o que existir
 			   Course c = new Course();
 			   c.setName("Angular Com Spring");
-			   c.setCategory("Front-end");
+			   c.setCategory("front-end");
 			   courseRepository.save(c);
 		};
 	}
