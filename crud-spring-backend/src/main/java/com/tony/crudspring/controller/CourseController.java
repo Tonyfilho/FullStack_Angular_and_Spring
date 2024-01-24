@@ -50,7 +50,7 @@ public class CourseController {
         return courseService.findById(id).map(recordFound -> ResponseEntity.ok().body(recordFound))
                 .orElse(ResponseEntity.notFound().build());
     }
-
+  
     @PostMapping
     public ResponseEntity<Course> create(@RequestBody @Valid Course course) {
         courseService.create(course);

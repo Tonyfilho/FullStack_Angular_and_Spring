@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import com.tony.crudspring.exception.RecordNotFoundException;
 import com.tony.crudspring.model.Course;
 import com.tony.crudspring.repository.CourseRepository;
 
@@ -32,6 +33,7 @@ public class CourseService {
     public Optional<Course> findById(@PathVariable("id") @NotNull @Positive Long id) {
         return courseRepository.findById(id);
     }
+ 
 
     public Course create(@Valid Course course) {
         return courseRepository.save(course);
