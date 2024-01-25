@@ -2,7 +2,6 @@ package com.tony.crudspring.service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
@@ -49,8 +48,8 @@ public class CourseServiceWithExeption {
         .collect(Collectors.toList());
     }
 
-    public CourseDTOWithRecord create(@Valid Course course) {
-        return this.courseMapper.toDTO(courseRepository.save(course));
+    public CourseDTOWithRecord create(@Valid @NotNull CourseDTOWithRecord courseDTOWithRecord) {
+        return this.courseMapper.toDTO(courseRepository.save(courseMapper.toCourse(courseDTOWithRecord)));
 
     }
 
@@ -63,10 +62,10 @@ public class CourseServiceWithExeption {
     }
 
 
-   public CourseDTOWithRecord updateWithExeption(@NotNull @Positive Long id, @Valid Course course) {
+   public CourseDTOWithRecord updateWithExeption(@NotNull @Positive Long id, @Valid CourseDTOWithRecord courseDTOWithRecord) {
         return courseRepository.findById(id).map(recordFound -> {
-            recordFound.setName(course.getName());
-            recordFound.setCategory(course.getCategory());
+            recordFound.setName(courseDTOWithRecord.name());
+            recordFound.setCategory(courseDTOWithRecord.category());
             return this.courseMapper.toDTO(courseRepository.save(recordFound));
         }).orElseThrow(() ->new  RecordNotFoundException(id));
     }

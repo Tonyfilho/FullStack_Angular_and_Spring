@@ -16,8 +16,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tony.crudspring.dto.CourseDTOWithRecord;
-import com.tony.crudspring.model.Course;
-
 import com.tony.crudspring.service.CourseServiceWithExeption;
 
 import jakarta.validation.Valid;
@@ -51,7 +49,7 @@ public class CourseCountrollerWithExeption {
     }
 
     @PutMapping("/{id}")
-    public CourseDTOWithRecord update(@PathVariable @NotNull @Positive Long id, @RequestBody @Valid Course course) {
+    public CourseDTOWithRecord update(@PathVariable @NotNull @Positive Long id, @RequestBody @Valid CourseDTOWithRecord course) {
         return courseServiceWithExeption.updateWithExeption(id, course);
     }
 
@@ -64,7 +62,7 @@ public class CourseCountrollerWithExeption {
       
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
-    public ResponseEntity<CourseDTOWithRecord> create(@RequestBody @Valid Course course) {
+    public ResponseEntity<CourseDTOWithRecord> create(@RequestBody @Valid CourseDTOWithRecord course) {
         CourseDTOWithRecord localDto =  courseServiceWithExeption.create(course);
         return ResponseEntity.status(HttpStatus.CREATED).body(localDto);
     }
