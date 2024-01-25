@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.tony.crudspring.dto.CourseDTOWithRecord;
 import com.tony.crudspring.model.Course;
 
 import com.tony.crudspring.service.CourseServiceWithExeption;
@@ -40,17 +41,17 @@ public class CourseCountrollerWithExeption {
     /****** Class with Exeptions **** */
 
     @GetMapping
-    public List<Course> list() {
+    public List<CourseDTOWithRecord> list() {
         return courseServiceWithExeption.list();
     }
 
     @GetMapping("/{id}")
-    public Course findByIdExeptions(@PathVariable("id") @NotNull @Positive Long id) {
+    public CourseDTOWithRecord findByIdExeptions(@PathVariable("id") @NotNull @Positive Long id) {
         return courseServiceWithExeption.findByIdWithExeption(id);
     }
 
     @PutMapping("/{id}")
-    public Course update(@PathVariable @NotNull @Positive Long id, @RequestBody @Valid Course course) {
+    public CourseDTOWithRecord update(@PathVariable @NotNull @Positive Long id, @RequestBody @Valid Course course) {
         return courseServiceWithExeption.updateWithExeption(id, course);
     }
 
@@ -63,9 +64,9 @@ public class CourseCountrollerWithExeption {
       
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
-    public ResponseEntity<Course> create(@RequestBody @Valid Course course) {
-        courseServiceWithExeption.create(course);
-        return ResponseEntity.status(HttpStatus.CREATED).body(course);
+    public ResponseEntity<CourseDTOWithRecord> create(@RequestBody @Valid Course course) {
+        CourseDTOWithRecord localDto =  courseServiceWithExeption.create(course);
+        return ResponseEntity.status(HttpStatus.CREATED).body(localDto);
     }
 
 }
