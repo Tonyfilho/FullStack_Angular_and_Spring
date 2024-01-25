@@ -16,13 +16,11 @@ import org.springframework.web.bind.annotation.RestController;
 //import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.tony.crudspring.model.Course;
-import com.tony.crudspring.repository.CourseRepository;
 import com.tony.crudspring.service.CourseService;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
-import lombok.AllArgsConstructor;
 
 //Obs: @Valid serve para as validações das ENTIDADES e não as Locais.
 @Validated // @Validated serve p as validações Locais Ex: locais @NotNull @Positive

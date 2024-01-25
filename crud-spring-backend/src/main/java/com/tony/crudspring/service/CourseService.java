@@ -3,12 +3,10 @@ package com.tony.crudspring.service;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import com.tony.crudspring.exception.RecordNotFoundException;
 import com.tony.crudspring.model.Course;
 import com.tony.crudspring.repository.CourseRepository;
 
