@@ -5,8 +5,11 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import com.tony.crudspring.enums.Category;
 import com.tony.crudspring.model.Course;
+import com.tony.crudspring.model.CourseWithEnums;
 import com.tony.crudspring.repository.CourseRepository;
+import com.tony.crudspring.repository.CourseWithEnumsRepository;
 
 @SpringBootApplication
 public class CrudSpringApplication {
@@ -25,6 +28,15 @@ public class CrudSpringApplication {
 			   c.setName("Angular Com Spring");
 			   c.setCategory("front-end");
 			   courseRepository.save(c);
+		};
+	}
+	CommandLineRunner initDataBaseWithEnums (CourseWithEnumsRepository CourseRepositoryWithEnums) {
+		return args -> {
+			CourseRepositoryWithEnums.deleteAll(); // limpando o que existir
+			   CourseWithEnums c = new CourseWithEnums();
+			   c.setName("Angular Com Spring");
+			   c.setCategory(Category.FRONTEND);
+			   CourseRepositoryWithEnums.save(c);
 		};
 	}
 }
