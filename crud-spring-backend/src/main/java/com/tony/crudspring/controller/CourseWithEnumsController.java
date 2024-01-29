@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.tony.crudspring.dto.CourseDTOWithRecord;
 import com.tony.crudspring.dto.CourseWithEnumsDTO;
 import com.tony.crudspring.service.CourseWithEnumsService;
 
@@ -60,9 +59,8 @@ public class CourseWithEnumsController {
 
       
     @PostMapping
-    @ResponseStatus(code = HttpStatus.CREATED)
-    public ResponseEntity<CourseWithEnumsDTO> create(@RequestBody @Valid CourseWithEnumsDTO course) {
-        CourseWithEnumsDTO localDto = this.courseWithEnumsService.create(course);
+    public ResponseEntity<CourseWithEnumsDTO> create(@RequestBody @Valid CourseWithEnumsDTO courseWithenumsDTO) {
+        CourseWithEnumsDTO localDto = this.courseWithEnumsService.create(courseWithenumsDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(localDto);
     }
 

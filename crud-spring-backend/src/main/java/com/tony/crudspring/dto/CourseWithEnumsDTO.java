@@ -13,6 +13,6 @@ import jakarta.validation.constraints.NotNull;
 public record CourseWithEnumsDTO( 
     @JsonProperty("_id") Long id, 
     @NotBlank @NotNull @Length(min = 2, max = 100) String name, 
-    @NotNull @Length(max = 10) @Enumerated(EnumType.STRING) Category category) {
+    @Enumerated(EnumType.STRING) Category category) {
     
 }

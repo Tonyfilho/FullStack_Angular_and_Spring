@@ -30,13 +30,14 @@ public class CrudSpringApplication {
 			   courseRepository.save(c);
 		};
 	}
-	CommandLineRunner initDataBaseWithEnums (CourseWithEnumsRepository CourseRepositoryWithEnums) {
+	@Bean
+	CommandLineRunner initDataBaseWithEnums (CourseWithEnumsRepository CourseWithEnumsRepository) {
 		return args -> {
-			CourseRepositoryWithEnums.deleteAll(); // limpando o que existir
+			CourseWithEnumsRepository.deleteAll(); // limpando o que existir
 			   CourseWithEnums c = new CourseWithEnums();
 			   c.setName("Angular Com Spring");
 			   c.setCategory(Category.FRONTEND);
-			   CourseRepositoryWithEnums.save(c);
+			   CourseWithEnumsRepository.save(c);
 		};
 	}
 }

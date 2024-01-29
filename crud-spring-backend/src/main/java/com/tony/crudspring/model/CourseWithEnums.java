@@ -34,11 +34,10 @@ public class CourseWithEnums {
     @Column(length = 100, nullable = false)
     private String name;
 
-    @Length(max = 100)
+    // @Length(max = 20)
+    // @Pattern(regexp = "BACKEND|FRONTEND")
     @NotNull
-    @NotBlank
-    @Pattern(regexp = "BACKEND|FRONTEND")
-    @Column(length = 10, nullable = false)
+   // @Column(length = 20, nullable = false)
     @Enumerated(EnumType.STRING)
     private Category category;
 

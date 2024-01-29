@@ -8,16 +8,18 @@ import com.tony.crudspring.model.CourseWithEnums;
 @Component
 public class CourseWithEnumsMapper {
 
-      /** Recebe uma instacia da Entidade Course e retorna uma instancia do DTO */
+    /** Recebe uma instacia da Entidade Course e retorna uma instancia do DTO */
     public CourseWithEnumsDTO toDTO(CourseWithEnums courseWithEnums) {
         if (courseWithEnums == null) {
             return null;
         }
-        if (courseWithEnums.getCategory().equals(courseWithEnums.getCategory().BACKEND)) {
-            return new CourseWithEnumsDTO(courseWithEnums.getId(), courseWithEnums.getName(), courseWithEnums.getCategory().BACKEND);
-                        
+        if (courseWithEnums.getCategory().equals("BACKEND")) {
+            return new CourseWithEnumsDTO(courseWithEnums.getId(), courseWithEnums.getName(),
+                    courseWithEnums.getCategory().BACKEND);
+
         }
-        return new CourseWithEnumsDTO(courseWithEnums.getId(), courseWithEnums.getName(), courseWithEnums.getCategory().FRONTEND);
+        return new CourseWithEnumsDTO(courseWithEnums.getId(), courseWithEnums.getName(),
+                courseWithEnums.getCategory().FRONTEND);
     }
 
     /** Recebe uma instancia de DTO e converte em uma instacia de Course */
@@ -30,9 +32,14 @@ public class CourseWithEnumsMapper {
             localCourse.setId(courseWithEnumsDTO.id());
         }
         localCourse.setName(courseWithEnumsDTO.name());
-        localCourse.setCategory(courseWithEnumsDTO.category());
+        if (courseWithEnumsDTO.category().equals("BACKEND")) {
+            localCourse.setCategory(courseWithEnumsDTO.category().BACKEND);
+            localCourse.setStatus("active");
+            return localCourse;
+        }
+        localCourse.setCategory(courseWithEnumsDTO.category().FRONTEND);
         localCourse.setStatus("active");
         return localCourse;
     }
-    
+
 }
