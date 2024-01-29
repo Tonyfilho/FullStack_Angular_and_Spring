@@ -18,26 +18,27 @@ public class CourseWithEnumsMapper {
                     locaCategory.BACKEND);
         }
         return new CourseWithEnumsDTO(courseWithEnums.getId(), courseWithEnums.getName(),
-                courseWithEnums.getCategory().FRONTEND);
+                locaCategory.FRONTEND);
     }
 
     /** Recebe uma instancia de DTO e converte em uma instacia de Course */
     public CourseWithEnums toCourse(CourseWithEnumsDTO courseWithEnumsDTO) {
         CourseWithEnums localCourse = new CourseWithEnums();
-        if (courseWithEnumsDTO == null) {
-            return null;
-        }
+        Category locaCategory = courseWithEnumsDTO.category();
+        // if (courseWithEnumsDTO == null) {
+        // return null;
+        // }
         if (courseWithEnumsDTO.id() != null) {
             localCourse.setId(courseWithEnumsDTO.id());
         }
         localCourse.setName(courseWithEnumsDTO.name());
         if (courseWithEnumsDTO.category().toString().equals("BACKEND")) {
-            localCourse.setCategory(courseWithEnumsDTO.category().BACKEND);
-            localCourse.setStatus("active");
+            localCourse.setCategory(locaCategory.BACKEND);
+            // n podemos setar o active ja é setado na entidade
             return localCourse;
         }
-        localCourse.setCategory(courseWithEnumsDTO.category().FRONTEND);
-        localCourse.setStatus("active");
+        localCourse.setCategory(locaCategory.FRONTEND);
+        //  n podemos setar o active ja é setado na entidade
         return localCourse;
     }
 
