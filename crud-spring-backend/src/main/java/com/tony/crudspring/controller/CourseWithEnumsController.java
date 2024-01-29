@@ -3,6 +3,7 @@ package com.tony.crudspring.controller;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -47,8 +48,9 @@ public class CourseWithEnumsController {
     }
 
     @PutMapping("/{id}")
-    public CourseWithEnumsDTO update(@PathVariable @NotNull @Positive Long id, @RequestBody @Valid CourseWithEnumsDTO course) {
-        return this.courseWithEnumsService.update(id, course);
+    public ResponseEntity<CourseWithEnumsDTO> update(@PathVariable @NotNull @Positive Long id, @RequestBody @Valid CourseWithEnumsDTO course) {
+        CourseWithEnumsDTO localDto = this.courseWithEnumsService.update(id, course);
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(localDto) ;
     }
 
     @DeleteMapping("/{id}")

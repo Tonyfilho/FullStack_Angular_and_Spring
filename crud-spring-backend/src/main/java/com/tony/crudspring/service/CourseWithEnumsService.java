@@ -59,12 +59,19 @@ public class CourseWithEnumsService {
    public CourseWithEnumsDTO update(@NotNull @Positive Long id, @Valid CourseWithEnumsDTO courseWithEnumsDTO) {
         return courseWithEnumsRepository.findById(id).map(recordFound -> {
             recordFound.setName(courseWithEnumsDTO.name());
-            if (courseWithEnumsDTO.category().equals("BACKEND")) {
-                recordFound.setCategory(courseWithEnumsDTO.category().BACKEND);
-            return this.courseWithEnumsMapper.toDTO(courseWithEnumsRepository.save(recordFound));
-            }
-            recordFound.setCategory(courseWithEnumsDTO.category().FRONTEND);
-            return this.courseWithEnumsMapper.toDTO(courseWithEnumsRepository.save(recordFound));
+            recordFound.setCategory(courseWithEnumsDTO.category());
+
+            // return this.courseWithEnumsMapper.toDTO(recordFound );
+            courseWithEnumsRepository.save(recordFound);
+         return  this.courseWithEnumsMapper.toDTO(recordFound );
+
+            // if (courseWithEnumsDTO.category().equals("BACKEND")) {
+            //     recordFound.setCategory(courseWithEnumsDTO.category().BACKEND);
+            // return this.courseWithEnumsMapper.toDTO(courseWithEnumsRepository.save(recordFound));
+            // }
+            // recordFound.setCategory(courseWithEnumsDTO.category().FRONTEND);
+            // return this.courseWithEnumsMapper.toDTO(courseWithEnumsRepository.save(recordFound));
+
         }).orElseThrow(() ->new  RecordNotFoundException(id));
     }
 

@@ -22,7 +22,7 @@ import lombok.Data;
 
 @Data // Pertence ao lombok, e ja gera Get, Set ToString e RashCode
 @Entity // vai ser uma tabela na DB do JPA
-@SQLDelete(sql = "UPDATE Course SET status = 'inativo' WHERE status = 'active' and id = ?")// usando o Where
+@SQLDelete(sql = "UPDATE Course SET status = 'inactive' WHERE status = 'active' and id = ?")// usando o Where
 //@SQLDelete(sql = "UPDATE Course SET status = 'inativo' WHERE id = ?")// @SQLDelete() permite criar uma query para padronizar um DELETE no SQL
 //@Where(clause = "status = 'active'")
 public class Course {

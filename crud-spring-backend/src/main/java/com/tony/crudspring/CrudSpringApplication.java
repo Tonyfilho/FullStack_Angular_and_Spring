@@ -35,8 +35,8 @@ public class CrudSpringApplication {
 		return args -> {
 			CourseWithEnumsRepository.deleteAll(); // limpando o que existir
 			   CourseWithEnums c = new CourseWithEnums();
-			   c.setName("Angular Com Spring");
-			   c.setCategory(Category.FRONTEND);
+			   c.setName("Java");
+			   c.setCategory(Category.BACKEND);
 			   CourseWithEnumsRepository.save(c);
 		};
 	}

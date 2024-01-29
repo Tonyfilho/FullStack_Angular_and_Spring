@@ -3,6 +3,7 @@ package com.tony.crudspring.dto.mapper;
 import org.springframework.stereotype.Component;
 
 import com.tony.crudspring.dto.CourseWithEnumsDTO;
+import com.tony.crudspring.enums.Category;
 import com.tony.crudspring.model.CourseWithEnums;
 
 @Component
@@ -10,13 +11,11 @@ public class CourseWithEnumsMapper {
 
     /** Recebe uma instacia da Entidade Course e retorna uma instancia do DTO */
     public CourseWithEnumsDTO toDTO(CourseWithEnums courseWithEnums) {
-        if (courseWithEnums == null) {
-            return null;
-        }
-        if (courseWithEnums.getCategory().equals("BACKEND")) {
-            return new CourseWithEnumsDTO(courseWithEnums.getId(), courseWithEnums.getName(),
-                    courseWithEnums.getCategory().BACKEND);
+        Category locaCategory = courseWithEnums.getCategory();
 
+        if (courseWithEnums.getCategory().toString().equals("BACKEND")) {
+            return new CourseWithEnumsDTO(courseWithEnums.getId(), courseWithEnums.getName(),
+                    locaCategory.BACKEND);
         }
         return new CourseWithEnumsDTO(courseWithEnums.getId(), courseWithEnums.getName(),
                 courseWithEnums.getCategory().FRONTEND);
@@ -32,7 +31,7 @@ public class CourseWithEnumsMapper {
             localCourse.setId(courseWithEnumsDTO.id());
         }
         localCourse.setName(courseWithEnumsDTO.name());
-        if (courseWithEnumsDTO.category().equals("BACKEND")) {
+        if (courseWithEnumsDTO.category().toString().equals("BACKEND")) {
             localCourse.setCategory(courseWithEnumsDTO.category().BACKEND);
             localCourse.setStatus("active");
             return localCourse;
