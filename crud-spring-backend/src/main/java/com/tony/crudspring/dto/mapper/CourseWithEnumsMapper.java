@@ -33,13 +33,32 @@ public class CourseWithEnumsMapper {
         }
         localCourse.setName(courseWithEnumsDTO.name());
         if (courseWithEnumsDTO.category().toString().equals("BACKEND")) {
-            localCourse.setCategory(locaCategory.BACKEND);
+            localCourse.setCategory(Category.BACKEND);
             // n podemos setar o active ja é setado na entidade
             return localCourse;
         }
-        localCourse.setCategory(locaCategory.FRONTEND);
-        //  n podemos setar o active ja é setado na entidade
+        localCourse.setCategory(Category.FRONTEND);
+      //  localCourse.setCategory(convertersCategoryValue(courseWithEnumsDTO.category().toString()) );
         return localCourse;
+    }
+
+
+    /**Um outro codigo que podemos fazer com a nova feature do java 14, não precisamos usar os IFs dentro do ToCourse */
+    /**Usaremos uma Expressão Switch */
+    /**Usaremos uma lambda para retorna oq ue queremos, temos que retornar ou por blocos { return Category.BACKEND; }     */
+    public Category convertersCategoryValue(String value) {       
+        if (value == null) {
+            return null;
+        }
+     return switch (value) {
+            case "FRONTEND" ->  Category.FRONTEND;         
+            case "BACKEND"  ->   Category.BACKEND;               
+            default -> throw new IllegalArgumentException("Invalid Value: "+ value) ; 
+            //  default  IllegalArgumentException :: throw ;  // tem q acertar
+        
+         
+        };
+
     }
 
 }

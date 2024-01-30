@@ -59,7 +59,7 @@ public class CourseWithEnumsService {
    public CourseWithEnumsDTO update(@NotNull @Positive Long id, @Valid CourseWithEnumsDTO courseWithEnumsDTO) {
         return courseWithEnumsRepository.findById(id).map(recordFound -> {
             recordFound.setName(courseWithEnumsDTO.name());
-            recordFound.setCategory(courseWithEnumsDTO.category());           
+            recordFound.setCategory(this.courseWithEnumsMapper.convertersCategoryValue(courseWithEnumsDTO.category().toString()));           
             courseWithEnumsRepository.save(recordFound);
          return  this.courseWithEnumsMapper.toDTO(recordFound );   
 
