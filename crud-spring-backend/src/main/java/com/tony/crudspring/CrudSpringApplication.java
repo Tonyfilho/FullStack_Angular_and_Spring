@@ -9,6 +9,8 @@ import com.tony.crudspring.enums.Category;
 import com.tony.crudspring.enums.Status;
 import com.tony.crudspring.model.Course;
 import com.tony.crudspring.model.CourseWithEnums;
+import com.tony.crudspring.model.Lesson;
+import com.tony.crudspring.model.LessonWithEnums;
 import com.tony.crudspring.repository.CourseRepository;
 import com.tony.crudspring.repository.CourseWithEnumsRepository;
 
@@ -23,23 +25,43 @@ public class CrudSpringApplication {
 	/**So para titulo, estaremos iniciando e abastecendo o banco de dados aqui, isto é errado, mas é didatico */
 	@Bean
 	CommandLineRunner initDataBase (CourseRepository courseRepository) {
+		/**
+		 * Obs: Quando temos relacionamento entre ENTYTES
+		 * Lembrando que estes Objetos são REFERENCIA de Memoria
+		 * 1º Sempre gerar o Objeto Principal, neste caso localCourse apara termos o ID de Course;
+		 * 2º Gerar o Objeto secundario e Setar o Objeto Principal dentro do Secundario locaLesson.setCourse(localCourse);
+		 * Setando desta forma mandaremos o ID da Entidade Course para Entidade Lesson e o Hibernate ou JPA faz o restante 
+		 * Fazendo o INSERT na tabela com as informações
+		 * 3ª Adcionar na List de Lesson no Objeto Primario
+		 * 4ª Salvar na DB
+		 * 
+		 */
 		return args -> {
                courseRepository.deleteAll(); // limpando o que existir
-			   Course c = new Course();
-			   c.setName("Angular Com Spring");
-			   c.setCategory("front-end");
-			   courseRepository.save(c);
+			   Course localCourse = new Course();
+			   localCourse.setName("Angular Com Spring");
+			   localCourse.setCategory("front-end");
+
+			   Lesson locaLesson = new Lesson();
+			   locaLesson.setName("Introduction");
+			   locaLesson.setYoutubeUrl("https://youtu.be/vRf1-Z4_7vI?si=ms6gI1ymDnpcOmKp");
+			   locaLesson.setCourse(localCourse); /** setando o Objeto Course dentro da Entidade Lesson */
+			   localCourse.getLessons().add(locaLesson);
+			   courseRepository.save(localCourse);
 		};
 	}
 	@Bean
 	CommandLineRunner initDataBaseWithEnums (CourseWithEnumsRepository CourseWithEnumsRepository) {
 		return args -> {
 			CourseWithEnumsRepository.deleteAll(); // limpando o que existir
-			   CourseWithEnums c = new CourseWithEnums();
-			   c.setName("Java");
-			   c.setCategory(Category.BACKEND);
-			 //  c.setStatus(Status.ACTIVE);
-			   CourseWithEnumsRepository.save(c);
+			   CourseWithEnums localCourse = new CourseWithEnums();
+			   LessonWithEnums locaLesson = new LessonWithEnums();
+			   localCourse.setName("Java");
+			   localCourse.setCategory(Category.BACKEND);
+			   locaLesson.setName("Introduction");
+			   locaLesson.setYoutubeUrl("https://youtu.be/vRf1-Z4_7vI?si=ms6gI1ymDnpcOmKp");
+			   localCourse.getLessons().add(locaLesson);
+			   CourseWithEnumsRepository.save(localCourse);
 		};
 	}
 }
