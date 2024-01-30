@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 import com.tony.crudspring.enums.Category;
+import com.tony.crudspring.enums.Status;
 import com.tony.crudspring.model.Course;
 import com.tony.crudspring.model.CourseWithEnums;
 import com.tony.crudspring.repository.CourseRepository;
@@ -37,6 +38,7 @@ public class CrudSpringApplication {
 			   CourseWithEnums c = new CourseWithEnums();
 			   c.setName("Java");
 			   c.setCategory(Category.BACKEND);
+			 //  c.setStatus(Status.ACTIVE);
 			   CourseWithEnumsRepository.save(c);
 		};
 	}
