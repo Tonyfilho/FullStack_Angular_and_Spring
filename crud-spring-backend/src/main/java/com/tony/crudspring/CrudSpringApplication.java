@@ -6,7 +6,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 import com.tony.crudspring.enums.Category;
-import com.tony.crudspring.enums.Status;
 import com.tony.crudspring.model.Course;
 import com.tony.crudspring.model.CourseWithEnums;
 import com.tony.crudspring.model.Lesson;

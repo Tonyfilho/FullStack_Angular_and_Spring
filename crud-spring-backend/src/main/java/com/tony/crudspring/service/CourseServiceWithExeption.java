@@ -30,12 +30,12 @@ public class CourseServiceWithExeption {
         this.courseMapper = courseMapper;
     }
 
-    /**Conversão de COURSE para o DTO CourseDTOWithRecord*/
+    /**Conversão de COURSE para o DTO CourseDTOWithRecord, forma tradicional*/
     public List<CourseDTOWithRecord> listConversaoPadrao() {
         List<Course> courses = courseRepository.findAll();
         List <CourseDTOWithRecord> dtosRecords = new ArrayList<>(courses.size());
         for (Course course : courses) {
-            CourseDTOWithRecord localDtoWithRecord = new CourseDTOWithRecord(course.getId(), course.getName(), course.getStatus());
+            CourseDTOWithRecord localDtoWithRecord = new CourseDTOWithRecord(course.getId(), course.getName(), course.getStatus(), course.getLessons());
             dtosRecords.add(localDtoWithRecord);
         }
         return dtosRecords;
@@ -57,7 +57,7 @@ public class CourseServiceWithExeption {
        // return courseRepository.findById(id).orElseThrow(() -> new RecordNotFoundException(id)); // SEM DTO
       // return courseRepository.findById(id).map(courseMapper :: toDTO).orElseThrow(() -> new RecordNotFoundException(id)); // COM LAMBDA
        return courseRepository.findById(id)
-       .map(courseMapper -> new CourseDTOWithRecord(courseMapper.getId(), courseMapper.getName(), courseMapper.getCategory()))
+       .map(courseMapper -> new CourseDTOWithRecord(courseMapper.getId(), courseMapper.getName(), courseMapper.getCategory(), courseMapper.getLessons()))
        .orElseThrow(() -> new RecordNotFoundException(id)); 
     }
 
