@@ -7,24 +7,25 @@ import com.tony.crudspring.enums.Category;
 import com.tony.crudspring.model.CourseWithEnums;
 
 @Component
+@SuppressWarnings("static-access")
 public class CourseWithEnumsMapper {
 
     /** Recebe uma instacia da Entidade Course e retorna uma instancia do DTO */
+   
     public CourseWithEnumsDTO toDTO(CourseWithEnums courseWithEnums) {
         Category locaCategory = courseWithEnums.getCategory();
 
         if (courseWithEnums.getCategory().toString().equals("BACKEND")) {
             return new CourseWithEnumsDTO(courseWithEnums.getId(), courseWithEnums.getName(),
-                    locaCategory.BACKEND);
+                    locaCategory.BACKEND, courseWithEnums.getLessons());
         }
         return new CourseWithEnumsDTO(courseWithEnums.getId(), courseWithEnums.getName(),
-                locaCategory.FRONTEND);
+                locaCategory.FRONTEND, courseWithEnums.getLessons());
     }
 
     /** Recebe uma instancia de DTO e converte em uma instacia de Course */
     public CourseWithEnums toCourse(CourseWithEnumsDTO courseWithEnumsDTO) {
-        CourseWithEnums localCourse = new CourseWithEnums();
-        Category locaCategory = courseWithEnumsDTO.category();
+        CourseWithEnums localCourse = new CourseWithEnums();    
         // if (courseWithEnumsDTO == null) {
         // return null;
         // }

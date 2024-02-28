@@ -20,6 +20,7 @@ import jakarta.validation.constraints.Positive;
 
 @Service
 @Validated
+@SuppressWarnings("null")
 public class CourseServiceWithExeption {
     private final CourseRepository courseRepository;
     private final CourseMapper courseMapper;
@@ -47,12 +48,12 @@ public class CourseServiceWithExeption {
         //.collect(ArrayList:: new, ArrayList:: add, ArrayList :: addAll); //ou assim
         .collect(Collectors.toList());
     }
-
+   
     public CourseDTOWithRecord create(@Valid @NotNull CourseDTOWithRecord courseDTOWithRecord) {
         return this.courseMapper.toDTO(courseRepository.save(courseMapper.toCourse(courseDTOWithRecord)));
 
     }
-
+    
     public CourseDTOWithRecord findByIdWithExeption(@PathVariable("id") @NotNull @Positive Long id) {
        // return courseRepository.findById(id).orElseThrow(() -> new RecordNotFoundException(id)); // SEM DTO
       // return courseRepository.findById(id).map(courseMapper :: toDTO).orElseThrow(() -> new RecordNotFoundException(id)); // COM LAMBDA
@@ -61,7 +62,7 @@ public class CourseServiceWithExeption {
        .orElseThrow(() -> new RecordNotFoundException(id)); 
     }
 
-
+  
    public CourseDTOWithRecord updateWithExeption(@NotNull @Positive Long id, @Valid CourseDTOWithRecord courseDTOWithRecord) {
         return courseRepository.findById(id).map(recordFound -> {
             recordFound.setName(courseDTOWithRecord.name());

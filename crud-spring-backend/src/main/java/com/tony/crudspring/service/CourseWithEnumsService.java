@@ -19,6 +19,7 @@ import jakarta.validation.constraints.Positive;
 
 @Service
 @Validated
+@SuppressWarnings("null")
 public class CourseWithEnumsService {
 
     private final CourseWithEnumsRepository courseWithEnumsRepository;
@@ -43,6 +44,7 @@ public class CourseWithEnumsService {
         .collect(Collectors.toList());
     }
 
+    
     public CourseWithEnumsDTO create(@Valid @NotNull CourseWithEnumsDTO courseWithEnumsDTO ) {
        // CourseWithEnumsDTO localWithEnumsDTO = 
         return this.courseWithEnumsMapper.toDTO(courseWithEnumsRepository.save(courseWithEnumsMapper.toCourse(courseWithEnumsDTO)));
@@ -51,7 +53,7 @@ public class CourseWithEnumsService {
 
     public CourseWithEnumsDTO findByIdWith(@PathVariable("id") @NotNull @Positive Long id) {      
        return courseWithEnumsRepository.findById(id)
-       .map(courseMapper -> new CourseWithEnumsDTO(courseMapper.getId(), courseMapper.getName(), courseMapper.getCategory()))
+       .map(courseMapper -> new CourseWithEnumsDTO(courseMapper.getId(), courseMapper.getName(), courseMapper.getCategory(), courseMapper.getLessons()))
        .orElseThrow(() -> new RecordNotFoundException(id)); 
     }
 
