@@ -1,8 +1,12 @@
 package com.tony.crudspring.dto.mapper;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Component;
 
 import com.tony.crudspring.dto.CourseDTOWithRecord;
+import com.tony.crudspring.dto.LessonDTOWithRecord;
 import com.tony.crudspring.model.Course;
 import com.tony.crudspring.model.Lesson;
 
@@ -14,7 +18,12 @@ public class CourseMapper {
         if (course == null) {
             return null;
         }
-        return new CourseDTOWithRecord(course.getId(), course.getName(), course.getCategory(), course.getLessons());
+       List<LessonDTOWithRecord> lessonsDTO = course.getLessons().stream().map(lesson -> new LessonDTOWithRecord(lesson.getId(), lesson.getName(), lesson.getYoutubeUrl()))
+        .collect(Collectors.toList());
+
+
+
+        return new CourseDTOWithRecord(course.getId(), course.getName(), course.getCategory(), lessonsDTO);
     }
 
     /** Recebe uma instancia de DTO e converte em uma instacia de Course */
