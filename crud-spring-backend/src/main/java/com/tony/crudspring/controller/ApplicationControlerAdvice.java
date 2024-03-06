@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.tony.crudspring.exception.RecordNotFoundException;
 
-/***@RestControllerAdvice  é usando para tratar exeptions, esta class fala para totas as outras o que fazer com as exeptions*/
+/***@RestControllerAdvice  é usando para tratar exeptions, esta class fala para todas as outras o que fazer com as exeptions*/
 
 @RestControllerAdvice
 public class ApplicationControlerAdvice {

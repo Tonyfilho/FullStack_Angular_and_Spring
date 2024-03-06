@@ -20,14 +20,11 @@ public class CourseMapper {
         }
        List<LessonDTOWithRecord> lessonsDTO = course.getLessons().stream().map(lesson -> new LessonDTOWithRecord(lesson.getId(), lesson.getName(), lesson.getYoutubeUrl()))
         .collect(Collectors.toList());
-
-
-
         return new CourseDTOWithRecord(course.getId(), course.getName(), course.getCategory(), lessonsDTO);
     }
 
     /** Recebe uma instancia de DTO e converte em uma instacia de Course */
-    public Course toCourse(CourseDTOWithRecord courseDTOWithRecord) {
+    public Course toEntity(CourseDTOWithRecord courseDTOWithRecord) {
         Course localCourse = new Course();
         Lesson locaLesson = new Lesson();
         if (courseDTOWithRecord == null) {

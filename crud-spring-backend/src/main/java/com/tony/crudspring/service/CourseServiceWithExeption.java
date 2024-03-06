@@ -64,7 +64,7 @@ public class CourseServiceWithExeption {
     }
 
     public CourseDTOWithRecord create(@Valid @NotNull CourseDTOWithRecord courseDTOWithRecord) {
-        return this.courseMapper.toDTO(courseRepository.save(courseMapper.toCourse(courseDTOWithRecord)));
+        return this.courseMapper.toDTO(courseRepository.save(courseMapper.toEntity(courseDTOWithRecord)));
 
     }
 
