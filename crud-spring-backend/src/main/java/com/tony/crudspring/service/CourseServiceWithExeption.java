@@ -28,18 +28,16 @@ public class CourseServiceWithExeption {
     private final CourseRepository courseRepository;
     private final CourseMapper courseMapper;
     private final LessonRepository lessonRepository;
-    
 
     /*************** Service com exeption personalizadas **************/
     public CourseServiceWithExeption(
-        CourseRepository courseRepository, 
-        CourseMapper courseMapper,
-        LessonRepository lessonRepository 
-        ) {
+            CourseRepository courseRepository,
+            CourseMapper courseMapper,
+            LessonRepository lessonRepository) {
         this.courseRepository = courseRepository;
         this.courseMapper = courseMapper;
         this.lessonRepository = lessonRepository;
-        
+
     }
 
     /** Conversão de COURSE para o DTO CourseDTOWithRecord, forma tradicional */
@@ -51,7 +49,7 @@ public class CourseServiceWithExeption {
         for (Course course : courses) {
             for (Lesson courseLesson : course.getLessons()) {
                 lessonDTO.add(new LessonDTOWithRecord(courseLesson.getId(), courseLesson.getName(),
-                        courseLesson.getYoutubeUrl()));
+                        courseLesson.getYoutubeUrl(), course));
             }
             CourseDTOWithRecord localDtoWithRecord = new CourseDTOWithRecord(course.getId(), course.getName(),
                     course.getStatus(), lessonDTO);
@@ -70,8 +68,9 @@ public class CourseServiceWithExeption {
 
     public CourseDTOWithRecord create(@Valid @NotNull CourseDTOWithRecord courseDTOWithRecord) {
         return this.courseMapper.toDTO(courseRepository.save(courseMapper.toEntity(courseDTOWithRecord)));
-        
+
     }
+
     public CourseDTOWithRecord updateWithExeption(@NotNull @Positive Long id,
             @Valid CourseDTOWithRecord courseDTO) {
         return courseRepository.findById(id).map(recordFound -> {
@@ -86,17 +85,18 @@ public class CourseServiceWithExeption {
         // RecordNotFoundException(id)); // SEM DTO
         // return courseRepository.findById(id).map(courseMapper ::
         // toDTO).orElseThrow(() -> new RecordNotFoundException(id)); // COM LAMBDA
-        List<LessonDTOWithRecord> lessons = new ArrayList<>();
-        CourseDTOWithRecord localCourceDTO;
-        // CourseDTOWithRecord courceDTO = courseRepository.findById(id).map(courseMapper:: toDTO);
-       return localCourceDTO =   courseRepository.findById(id).map(course -> {
-               course.getLessons().stream().
-            map(localLesson -> lessons.
-            add(new LessonDTOWithRecord(localLesson.getId(), localLesson.getName(), localLesson.getYoutubeUrl() )));
-            return    new CourseDTOWithRecord(id, course.getName(), course.getCategory(), lessons);
-            }).orElseThrow(() -> new RecordNotFoundException(id));      
+        List<LessonDTOWithRecord> lessonsDTOs = new ArrayList<>();       
+        // CourseDTOWithRecord courceDTO =
+        // courseRepository.findById(id).map(courseMapper:: toDTO);
+        return courseRepository.findById(id).map(course -> {          
+            course.getLessons().stream().map(lesson ->  {
+                final  LessonDTOWithRecord localLessonDTO = new LessonDTOWithRecord(lesson.getId(), lesson.getName(), lesson.getYoutubeUrl(), course);
+              return  lessonsDTOs.add(localLessonDTO);
+            });
+          return  new CourseDTOWithRecord(id, course.getName(), course.getCategory(), lessonsDTOs);
+            
+        }).orElseThrow(() -> new RecordNotFoundException(id));
     }
-
 
     public void deleteWithExeption(@NotNull @Positive Long id) {
         courseRepository.findById(id).map(result -> {
