@@ -12,15 +12,15 @@ public class CourseWithEnumsMapper {
 
     /** Recebe uma instacia da Entidade Course e retorna uma instancia do DTO */
    
-    public CourseWithEnumsDTO toDTO(CourseWithEnums courseWithEnums) {
-        Category locaCategory = courseWithEnums.getCategory();
+    public CourseWithEnumsDTO toDTO(CourseWithEnums course) {
+        Category locaCategory = course.getCategory();
 
-        if (courseWithEnums.getCategory().toString().equals("BACKEND")) {
-            return new CourseWithEnumsDTO(courseWithEnums.getId(), courseWithEnums.getName(),
-                    locaCategory.BACKEND, courseWithEnums.getLessons());
+        if (course.getCategory().toString().equals("BACKEND")) {
+            return new CourseWithEnumsDTO(course.getId(), course.getName(),
+                    locaCategory.BACKEND, course.getLessons());
         }
-        return new CourseWithEnumsDTO(courseWithEnums.getId(), courseWithEnums.getName(),
-                locaCategory.FRONTEND, courseWithEnums.getLessons());
+        return new CourseWithEnumsDTO(course.getId(), course.getName(),
+                locaCategory.FRONTEND, course.getLessons());
     }
 
     /** Recebe uma instancia de DTO e converte em uma instacia de Course */

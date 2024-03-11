@@ -49,7 +49,7 @@ public class CourseServiceWithExeption {
         for (Course course : courses) {
             for (Lesson courseLesson : course.getLessons()) {
                 lessonDTO.add(new LessonDTOWithRecord(courseLesson.getId(), courseLesson.getName(),
-                        courseLesson.getYoutubeUrl(), course));
+                        courseLesson.getYoutubeUrl()));
             }
             CourseDTOWithRecord localDtoWithRecord = new CourseDTOWithRecord(course.getId(), course.getName(),
                     course.getStatus(), lessonDTO);
@@ -90,7 +90,7 @@ public class CourseServiceWithExeption {
         // courseRepository.findById(id).map(courseMapper:: toDTO);
         return courseRepository.findById(id).map(course -> {          
             course.getLessons().stream().map(lesson ->  {
-                final  LessonDTOWithRecord localLessonDTO = new LessonDTOWithRecord(lesson.getId(), lesson.getName(), lesson.getYoutubeUrl(), course);
+                final  LessonDTOWithRecord localLessonDTO = new LessonDTOWithRecord(lesson.getId(), lesson.getName(), lesson.getYoutubeUrl());
               return  lessonsDTOs.add(localLessonDTO);
             });
           return  new CourseDTOWithRecord(id, course.getName(), course.getCategory(), lessonsDTOs);
