@@ -28,6 +28,7 @@ public class CourseServiceWithExeption {
     private final CourseRepository courseRepository;
     private final CourseMapper courseMapper;
     private final LessonRepository lessonRepository;
+    private int index = 0;
 
     /*************** Service com exeption personalizadas **************/
     public CourseServiceWithExeption(
@@ -81,20 +82,24 @@ public class CourseServiceWithExeption {
     }
 
     public CourseDTOWithRecord findByIdWithExeption(@PathVariable("id") @NotNull @Positive Long id) {
-        // return courseRepository.findById(id).orElseThrow(() -> new
-        // RecordNotFoundException(id)); // SEM DTO
-        // return courseRepository.findById(id).map(courseMapper ::
-        // toDTO).orElseThrow(() -> new RecordNotFoundException(id)); // COM LAMBDA
-        List<LessonDTOWithRecord> lessonsDTOs = new ArrayList<>();       
-        // CourseDTOWithRecord courceDTO =
-        // courseRepository.findById(id).map(courseMapper:: toDTO);
-        return courseRepository.findById(id).map(course -> {          
-            course.getLessons().stream().map(lesson ->  {
-                final  LessonDTOWithRecord localLessonDTO = new LessonDTOWithRecord(lesson.getId(), lesson.getName(), lesson.getYoutubeUrl());
-              return  lessonsDTOs.add(localLessonDTO);
-            });
-          return  new CourseDTOWithRecord(id, course.getName(), course.getCategory(), lessonsDTOs);
-            
+        /**
+         * return courseRepository.findById(id).orElseThrow(() -> new
+         * RecordNotFoundException(id)); // SEM DTO
+         * return courseRepository.findById(id).map(courseMapper ::
+         * toDTO).orElseThrow(() -> new RecordNotFoundException(id)); // COM LAMBDA
+         * CourseDTOWithRecord courceDTO =
+         * courseRepository.findById(id).map(courseMapper:: toDTO);
+         * 
+         */
+        List<LessonDTOWithRecord> lessonsDTOs = new ArrayList<>();
+
+        return courseRepository.findById(id).map(course -> {
+            Course localCourse = new Course();
+            localCourse.setId(course.getId());
+            localCourse.setName(course.getName());
+            localCourse.setCategory(course.getCategory());
+            localCourse.setLessons(course.getLessons());            
+            return courseMapper.toDTO(localCourse);
         }).orElseThrow(() -> new RecordNotFoundException(id));
     }
 
