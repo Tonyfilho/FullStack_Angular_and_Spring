@@ -49,8 +49,8 @@ public class CourseCountrollerWithExeption {
     }
 
     @PutMapping("/{id}")
-    public CourseDTOWithRecord update(@PathVariable @NotNull @Positive Long id, @RequestBody @Valid CourseDTOWithRecord course) {
-        return courseServiceWithExeption.updateWithExeption(id, course);
+    public CourseDTOWithRecord update(@PathVariable @NotNull @Positive Long id, @RequestBody @Valid CourseDTOWithRecord courseDTO) {
+        return courseServiceWithExeption.updateWithExeption(id, courseDTO);
     }
 
     @DeleteMapping("/{id}")

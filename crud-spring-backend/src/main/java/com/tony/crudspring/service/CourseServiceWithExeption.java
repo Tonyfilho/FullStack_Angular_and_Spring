@@ -28,7 +28,6 @@ public class CourseServiceWithExeption {
     private final CourseRepository courseRepository;
     private final CourseMapper courseMapper;
     private final LessonRepository lessonRepository;
-    private int index = 0;
 
     /*************** Service com exeption personalizadas **************/
     public CourseServiceWithExeption(
@@ -74,10 +73,18 @@ public class CourseServiceWithExeption {
 
     public CourseDTOWithRecord updateWithExeption(@NotNull @Positive Long id,
             @Valid CourseDTOWithRecord courseDTO) {
-        return courseRepository.findById(id).map(recordFound -> {
-            recordFound.setName(courseDTO.name());
-            recordFound.setCategory(courseDTO.category());
-            return this.courseMapper.toDTO(courseRepository.save(recordFound));
+        return courseRepository.findById(id).map(course -> {
+            // course.setName(courseDTO.name());
+            // course.setCategory(courseDTO.category());
+            if(course.getId() != null) {    
+                 Course localCourse =  courseMapper.toEntity(courseDTO);   
+                courseRepository.save(localCourse);             
+               return this.courseMapper.toDTO(localCourse);
+
+            }
+            return courseDTO;
+            
+
         }).orElseThrow(() -> new RecordNotFoundException(id));
     }
 
@@ -91,15 +98,15 @@ public class CourseServiceWithExeption {
          * courseRepository.findById(id).map(courseMapper:: toDTO);
          * 
          */
-        List<LessonDTOWithRecord> lessonsDTOs = new ArrayList<>();
-
         return courseRepository.findById(id).map(course -> {
-            Course localCourse = new Course();
-            localCourse.setId(course.getId());
-            localCourse.setName(course.getName());
-            localCourse.setCategory(course.getCategory());
-            localCourse.setLessons(course.getLessons());            
-            return courseMapper.toDTO(localCourse);
+            /** ou usa o Set Local ou Mapper
+             * Course localCourse = new Course();
+             * localCourse.setId(course.getId());
+             * localCourse.setName(course.getName());
+             * localCourse.setCategory(course.getCategory());
+             * localCourse.setLessons(course.getLessons());
+             */
+            return courseMapper.toDTO(course);
         }).orElseThrow(() -> new RecordNotFoundException(id));
     }
 
