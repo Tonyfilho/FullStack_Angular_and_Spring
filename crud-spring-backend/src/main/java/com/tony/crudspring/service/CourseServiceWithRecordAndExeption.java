@@ -24,13 +24,13 @@ import jakarta.validation.constraints.Positive;
 @Service
 @Validated
 @SuppressWarnings("null")
-public class CourseServiceWithExeption {
+public class CourseServiceWithRecordAndExeption {
     private final CourseRepository courseRepository;
     private final CourseMapper courseMapper;
     private final LessonRepository lessonRepository;
 
     /*************** Service com exeption personalizadas **************/
-    public CourseServiceWithExeption(
+    public CourseServiceWithRecordAndExeption(
             CourseRepository courseRepository,
             CourseMapper courseMapper,
             LessonRepository lessonRepository) {
@@ -73,17 +73,24 @@ public class CourseServiceWithExeption {
 
     public CourseDTOWithRecord updateWithExeption(@NotNull @Positive Long id,
             @Valid CourseDTOWithRecord courseDTO) {
-        return courseRepository.findById(id).map(course -> {
-            // course.setName(courseDTO.name());
-            // course.setCategory(courseDTO.category());
-            if(course.getId() != null) {    
-                 Course localCourse =  courseMapper.toEntity(courseDTO);   
-                courseRepository.save(localCourse);             
-               return this.courseMapper.toDTO(localCourse);
-
-            }
-            return courseDTO;
-            
+        return courseRepository.findById(id).map(recordFound -> {
+            recordFound.setName(courseDTO.name());
+            recordFound.setCategory(courseMapper.convertCategoryValue(courseDTO.category()).toString());
+            recordFound.getLessons().clear(); /**
+                                               * Para não dar o error de cascade do Hibernete, por termos referencias na
+                                               * memorias diferentes
+                                               * 1º q tem uma lista vinda do recordFound
+                                               * 2º q vem do Update quando atualizamos os dados, temos que ter esta
+                                               * abordagem
+                                               * de limpar a referencia de memoria e voltar atualiza-la com a lista que
+                                               * vem do front
+                                               */
+            Course localCourse = courseMapper.toEntity(courseDTO);
+            /*
+            * / localCourse.getLessons().forEach(lesson -> recordFound.getLessons().add(lesson)); ou assim usando Method reference            
+            */
+            localCourse.getLessons().forEach(recordFound.getLessons()::add);
+            return courseMapper.toDTO(recordFound);
 
         }).orElseThrow(() -> new RecordNotFoundException(id));
     }
@@ -98,20 +105,21 @@ public class CourseServiceWithExeption {
          * courseRepository.findById(id).map(courseMapper:: toDTO);
          * 
          */
-        return courseRepository.findById(id).map(course -> {
-            /** ou usa o Set Local ou Mapper
+        return courseRepository.findById(id).map(recordFoundCourse -> {
+            /**
+             * ou usa o Set Local ou Mapper
              * Course localCourse = new Course();
              * localCourse.setId(course.getId());
              * localCourse.setName(course.getName());
              * localCourse.setCategory(course.getCategory());
              * localCourse.setLessons(course.getLessons());
              */
-            return courseMapper.toDTO(course);
+            return courseMapper.toDTO(recordFoundCourse);
         }).orElseThrow(() -> new RecordNotFoundException(id));
     }
 
     public void deleteWithExeption(@NotNull @Positive Long id) {
-        courseRepository.findById(id).map(result -> {
+        courseRepository.findById(id).map(recordFoundCourse -> {
             courseRepository.deleteById(id);
             return true;
         }).orElseThrow(() -> new RecordNotFoundException(id));

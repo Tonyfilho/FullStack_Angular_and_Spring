@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tony.crudspring.dto.CourseDTOWithRecord;
-import com.tony.crudspring.service.CourseServiceWithExeption;
+import com.tony.crudspring.service.CourseServiceWithRecordAndExeption;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -28,10 +28,10 @@ import jakarta.validation.constraints.Positive;
 @RequestMapping("/api/coursesexeption")
 public class CourseCountrollerWithExeption {
 
-    private final CourseServiceWithExeption courseServiceWithExeption;
+    private final CourseServiceWithRecordAndExeption courseServiceWithExeption;
 
     /** Criamos o construtor ao invez de usar o lombok */
-    public CourseCountrollerWithExeption(CourseServiceWithExeption courseServiceWithExeption) {
+    public CourseCountrollerWithExeption(CourseServiceWithRecordAndExeption courseServiceWithExeption) {
 
         this.courseServiceWithExeption = courseServiceWithExeption;
     }

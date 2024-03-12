@@ -37,9 +37,11 @@ public class CourseMapper {
         course.setCategory(courseDTO.category());
         course.setStatus("active");
         List<Lesson> lessons = courseDTO.lessons().stream().map(oneLesson -> {
-            var locaLesson = new Lesson(); /** Opcional de não Setar */
             /** Lesson */
-            locaLesson.setId(oneLesson.id());
+            var locaLesson = new Lesson(); /** Opcional de não Setar */
+            if(locaLesson.getId() > 0) {
+                locaLesson.setId(oneLesson.id());
+            };
             locaLesson.setName(oneLesson.name());
             locaLesson.setYoutubeUrl(oneLesson.youtubeUrl());
             locaLesson.setCourse(course);
@@ -86,8 +88,8 @@ public class CourseMapper {
             return null;
         }
         return switch (value) {
-            case "Front-end" -> Category.BACKEND;
-            case "Back-end" -> Category.FRONTEND;
+            case "front-end" -> Category.BACKEND;
+            case "back-end" -> Category.FRONTEND;
             default -> throw new IllegalArgumentException("Invalid Category.");
         };
     }
