@@ -22,10 +22,15 @@ public class CourseMapper {
             return null;
         }
         List<LessonDTOWithRecord> lessonsDTO = course.getLessons().stream()
-                .map(lesson -> new LessonDTOWithRecord(lesson.getId(), lesson.getName(), lesson.getYoutubeUrl()))
-                .collect(Collectors.toList());
+                .map(lesson -> new LessonDTOWithRecord(lesson.getId(), lesson.getName(), lesson.getYoutubeUrl())).toList();
+               /* .collect(Collectors.toList());*/ 
         return new CourseDTOWithRecord(course.getId(), course.getName(), course.getCategory().getValue(), lessonsDTO);
     }
+
+    /**   List<LessonDTO> lessonDTOList = course.getLessons()
+                .stream()
+                .map(lesson -> new LessonDTO(lesson.getId(), lesson.getName(), lesson.getYoutubeUrl()))
+                .toList(); */
 
     /** Recebe uma instancia de DTO e converte em uma instacia de Course */
     public Course toEntity(CourseDTOWithRecord courseDTO) {

@@ -76,21 +76,25 @@ public class CourseServiceWithRecordAndExeption {
         return courseRepository.findById(id).map(recordFound -> {
             recordFound.setName(courseDTO.name());
             recordFound.setCategory(courseMapper.convertCategoryValue(courseDTO.category()));
-            recordFound.getLessons().clear(); /**
-                                               * Para não dar o error de cascade do Hibernete, por termos referencias na
-                                               * memorias diferentes
-                                               * 1º q tem uma lista vinda do recordFound
-                                               * 2º q vem do Update quando atualizamos os dados, temos que ter esta
-                                               * abordagem
-                                               * de limpar a referencia de memoria e voltar atualiza-la com a lista que
-                                               * vem do front
-                                               */
-            Course localCourse = courseMapper.toEntity(courseDTO);
+            /**
+             * Para não dar o error de cascade do Hibernete, por termos referencias na
+             * memorias diferentes
+             * 1º q tem uma lista vinda do recordFound
+             * 2º q vem do Update quando atualizamos os dados, temos que ter esta
+             * abordagem
+             * de limpar a referencia de memoria e voltar atualiza-la com a lista que
+             * vem do front
+             */
+            recordFound.getLessons().clear(); /** Lista de cursos da DB */
+            Course localCourseFromFrontCourse = courseMapper.toEntity(courseDTO); /**
+                                                                    * Todas cursos e liçoes que vem do DTO ou seja front
+                                                                    */
             /*
-            * / localCourse.getLessons().forEach(lesson -> recordFound.getLessons().add(lesson)); ou assim usando Method reference            
-            */
-            localCourse.getLessons().forEach(recordFound.getLessons()::add);
-            return courseMapper.toDTO(recordFound);
+             * / localCourseFromFrontCourse.getLessons().forEach(lesson ->
+             * recordFound.getLessons().add(lesson)); ou assim usando Method reference
+             */
+            localCourseFromFrontCourse.getLessons().forEach(recordFound.getLessons()::add); /**Pegando cada item q vem do DTO e adcionando na DB */
+            return courseMapper.toDTO(courseRepository.save(recordFound));
 
         }).orElseThrow(() -> new RecordNotFoundException(id));
     }
