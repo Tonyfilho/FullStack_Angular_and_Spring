@@ -42,11 +42,11 @@ public class Course {
     @Column(length = 100, nullable = false)
     private String name;
 
-    @Length(max = 100)
+    // @Length(max = 100)  /**Foi mudado de string para ENUNS */
+    // @Pattern(regexp = "back-end|front-end") /**Foi mudado de string para ENUNS */
+    // @Column(length = 10, nullable = false) /**Foi mudado de string para ENUNS */
+    // @NotBlank
     @NotNull
-    @NotBlank
-    // @Pattern(regexp = "back-end|front-end")
-    @Column(length = 10, nullable = false)
     @Enumerated(EnumType.STRING)
     private Category category;
 
@@ -57,12 +57,20 @@ public class Course {
     @Column(length = 10, nullable = false)
     private String status = "active";
 
-    /** 1 para muitos desta forma aqui é economizado perfomace pois temos menos uma query em relação a CourseWithEnums */
+    /**
+     * 1 para muitos desta forma aqui é economizado perfomace pois temos menos uma
+     * query em relação a CourseWithEnums
+     */
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "course") /**
-                                           * cascade = CascadeType.ALL quer dizer qualquer alteração na Entidade de
-                                           * Course, será tb verificada se houve na entidade Lesson, se for removido um
-                                           * Course será tb removido da entidade Lesson estes dados
-                                           */
-   
+                                                                                      * cascade = CascadeType.ALL quer
+                                                                                      * dizer qualquer alteração na
+                                                                                      * Entidade de
+                                                                                      * Course, será tb verificada se
+                                                                                      * houve na entidade Lesson, se for
+                                                                                      * removido um
+                                                                                      * Course será tb removido da
+                                                                                      * entidade Lesson estes dados
+                                                                                      */
+
     private List<Lesson> lessons = new ArrayList<>();
 }
