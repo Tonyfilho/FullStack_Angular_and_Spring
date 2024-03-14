@@ -39,7 +39,7 @@ public class CrudSpringApplication {
                courseRepository.deleteAll(); // limpando o que existir
 			   Course localCourse = new Course();
 			   localCourse.setName("Angular Com Spring");
-			   localCourse.setCategory("front-end");
+			   localCourse.setCategory(Category.FRONT_END);
 
 			   Lesson locaLesson = new Lesson();
 			   locaLesson.setName("Introduction");
@@ -63,7 +63,7 @@ public class CrudSpringApplication {
 			   CourseWithEnums localCourse = new CourseWithEnums();
 			   LessonWithEnums locaLesson = new LessonWithEnums();
 			   localCourse.setName("Java");
-			   localCourse.setCategory(Category.BACKEND);
+			   localCourse.setCategory(Category.BACK_END);
 			   locaLesson.setName("Introduction");
 			   locaLesson.setYoutubeUrl("vRf1-Z4_7vI?si=ms6gI1ymDnpcOmKp");
 			 //  localCourse.getLessons().add(locaLesson);

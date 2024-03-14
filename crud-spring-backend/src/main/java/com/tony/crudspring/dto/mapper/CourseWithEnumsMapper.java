@@ -17,10 +17,10 @@ public class CourseWithEnumsMapper {
 
         if (course.getCategory().toString().equals("BACKEND")) {
             return new CourseWithEnumsDTO(course.getId(), course.getName(),
-                    locaCategory.BACKEND, course.getLessons());
+                    locaCategory.BACK_END, course.getLessons());
         }
         return new CourseWithEnumsDTO(course.getId(), course.getName(),
-                locaCategory.FRONTEND, course.getLessons());
+                locaCategory.FRONT_END, course.getLessons());
     }
 
     /** Recebe uma instancia de DTO e converte em uma instacia de Course */
@@ -34,11 +34,11 @@ public class CourseWithEnumsMapper {
         }
         localCourse.setName(courseWithEnumsDTO.name());
         if (courseWithEnumsDTO.category().toString().equals("BACKEND")) {
-            localCourse.setCategory(Category.BACKEND);
+            localCourse.setCategory(Category.BACK_END);
             // n podemos setar o active ja é setado na entidade
             return localCourse;
         }
-        localCourse.setCategory(Category.FRONTEND);
+        localCourse.setCategory(Category.FRONT_END);
       //  localCourse.setCategory(convertersCategoryValue(courseWithEnumsDTO.category().toString()) );
         return localCourse;
     }
@@ -52,8 +52,8 @@ public class CourseWithEnumsMapper {
             return null;
         }
      return switch (value) {
-            case "FRONTEND" ->  Category.FRONTEND;         
-            case "BACKEND"  ->   Category.BACKEND;               
+            case "FRONTEND" ->  Category.FRONT_END;         
+            case "BACKEND"  ->   Category.BACK_END;               
             default -> throw new IllegalArgumentException("Invalid Value: "+ value) ; 
             //  default  IllegalArgumentException :: throw ;  // tem q acertar
         

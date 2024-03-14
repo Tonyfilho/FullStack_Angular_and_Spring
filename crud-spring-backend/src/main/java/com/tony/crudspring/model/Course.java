@@ -7,10 +7,13 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.validator.constraints.Length;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.tony.crudspring.enums.Category;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -42,9 +45,10 @@ public class Course {
     @Length(max = 100)
     @NotNull
     @NotBlank
-    @Pattern(regexp = "back-end|front-end")
+    // @Pattern(regexp = "back-end|front-end")
     @Column(length = 10, nullable = false)
-    private String category;
+    @Enumerated(EnumType.STRING)
+    private Category category;
 
     @Length(max = 8)
     @NotNull

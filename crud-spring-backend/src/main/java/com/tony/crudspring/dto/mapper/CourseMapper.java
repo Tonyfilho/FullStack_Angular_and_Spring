@@ -24,32 +24,35 @@ public class CourseMapper {
         List<LessonDTOWithRecord> lessonsDTO = course.getLessons().stream()
                 .map(lesson -> new LessonDTOWithRecord(lesson.getId(), lesson.getName(), lesson.getYoutubeUrl()))
                 .collect(Collectors.toList());
-        return new CourseDTOWithRecord(course.getId(), course.getName(), course.getCategory(), lessonsDTO);
+        return new CourseDTOWithRecord(course.getId(), course.getName(), course.getCategory().getValue(), lessonsDTO);
     }
 
     /** Recebe uma instancia de DTO e converte em uma instacia de Course */
     public Course toEntity(CourseDTOWithRecord courseDTO) {
+
+        if (courseDTO == null) {
+            return null;
+        }
+
         Course course = new Course();
-        if(course.getId() != null) {
+        if (courseDTO != null) {
             course.setId(courseDTO.id());
         }
         course.setName(courseDTO.name());
-        course.setCategory(courseDTO.category());
+        course.setCategory(convertCategoryValue(courseDTO.category()));
         course.setStatus("active");
-        List<Lesson> lessons = courseDTO.lessons().stream().map(oneLesson -> {
+        List<Lesson> lessons = courseDTO.lessons().stream().map(lessonDTO -> {
             /** Lesson */
             var locaLesson = new Lesson(); /** Opcional de não Setar */
-            if(locaLesson.getId() > 0) {
-                locaLesson.setId(oneLesson.id());
-            };
-            locaLesson.setName(oneLesson.name());
-            locaLesson.setYoutubeUrl(oneLesson.youtubeUrl());
+            locaLesson.setId(lessonDTO.id());
+            locaLesson.setName(lessonDTO.name());
+            locaLesson.setYoutubeUrl(lessonDTO.youtubeUrl());
             locaLesson.setCourse(course);
             return locaLesson;
             /**
              * DePara entre Entytes para Hybernete setar o valor,
              * com isto criamos novos cursos e fazemos o Update deles na entidade Lesson
-             course.getLessons().add(locaLesson);
+             * course.getLessons().add(locaLesson);
              */
         }).collect(Collectors.toList());
         course.setLessons(lessons);
@@ -59,10 +62,9 @@ public class CourseMapper {
     /** Original Loiane que faz o que o meu ToEnity faz,mas usa o SET */
 
     public Course toModel(CourseDTOWithRecord courseRequestDTO) {
-
         Course course = new Course();
         course.setName(courseRequestDTO.name());
-        course.setCategory(convertCategoryValue(courseRequestDTO.category()).toString());
+        course.setCategory(convertCategoryValue(courseRequestDTO.category()));
 
         Set<Lesson> lessons = courseRequestDTO.lessons().stream()
                 .map(lessonDTO -> {
@@ -88,8 +90,8 @@ public class CourseMapper {
             return null;
         }
         return switch (value) {
-            case "front-end" -> Category.BACKEND;
-            case "back-end" -> Category.FRONTEND;
+            case "back-end" -> Category.BACK_END;
+            case "front-end" -> Category.FRONT_END;
             default -> throw new IllegalArgumentException("Invalid Category.");
         };
     }

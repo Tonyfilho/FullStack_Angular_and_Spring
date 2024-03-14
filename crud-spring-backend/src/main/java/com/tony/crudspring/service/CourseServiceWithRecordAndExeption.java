@@ -75,7 +75,7 @@ public class CourseServiceWithRecordAndExeption {
             @Valid CourseDTOWithRecord courseDTO) {
         return courseRepository.findById(id).map(recordFound -> {
             recordFound.setName(courseDTO.name());
-            recordFound.setCategory(courseMapper.convertCategoryValue(courseDTO.category()).toString());
+            recordFound.setCategory(courseMapper.convertCategoryValue(courseDTO.category()));
             recordFound.getLessons().clear(); /**
                                                * Para não dar o error de cascade do Hibernete, por termos referencias na
                                                * memorias diferentes
