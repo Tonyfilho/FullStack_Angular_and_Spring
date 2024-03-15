@@ -45,7 +45,7 @@ public class CrudSpringApplication {
 			   locaLesson.setName("Introduction");
 			   locaLesson.setYoutubeUrl("vRf1-Z4_7vI?si=ms6gI1ymDnpcOmKp");
 			   locaLesson.setCourse(localCourse); /** setando o Objeto Course dentro da Entidade Lesson */
-			  // localCourse.getLessons().add(locaLesson);
+			   localCourse.getLessons().add(locaLesson);
 			   courseRepository.save(localCourse);
 
 			   Lesson locaLesson2 = new Lesson();

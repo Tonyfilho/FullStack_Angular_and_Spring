@@ -1,5 +1,7 @@
 package com.tony.crudspring.model;
 
+import org.hibernate.validator.constraints.Length;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -8,6 +10,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 // @Data // lombok
@@ -17,9 +21,15 @@ public class Lesson {
     private Long id;
 
     @Column(length = 100, nullable = false)
+    @NotNull
+    @NotBlank
+    @Length(min = 2, max = 100)
     private String name;
 
     @Column(length = 100, nullable = false)
+    @NotNull
+    @NotBlank
+    @Length(min = 10, max = 40)
     private String youtubeUrl;
     /** So salvaremos o final do link */
 
@@ -35,6 +45,7 @@ public class Lesson {
      */
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "course_id", nullable = false)
+    @NotNull
 
     // @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     /*
@@ -51,6 +62,21 @@ public class Lesson {
      * não o Get
      */
     private Course course;
+
+
+    
+
+    public Lesson() {
+    }
+
+    
+
+    public Lesson(Long id, String name, String youtubeUrl, Course course) {
+        this.id = id;
+        this.name = name;
+        this.youtubeUrl = youtubeUrl;
+        this.course = course;
+    }
 
 
 
@@ -94,9 +120,11 @@ public class Lesson {
         return super.hashCode();
     }
 
+
     @Override
-    public String toString() {        
-        return super.toString();
+    public String toString() {
+        return "Lesson [id=" + id + ", name=" + name + ", youtubeUrl=" + youtubeUrl + ", course=" + course + "]";
     }
+
 
 }

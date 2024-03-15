@@ -94,7 +94,8 @@ public class CourseServiceWithRecordAndExeption {
              * recordFound.getLessons().add(lesson)); ou assim usando Method reference
              */
             localCourseFromFrontCourse.getLessons().forEach(recordFound.getLessons()::add); /**Pegando cada item q vem do DTO e adcionando na DB */
-            return courseMapper.toDTO(courseRepository.save(recordFound));
+            courseRepository.save(recordFound); /**Salvando na DB */
+            return courseMapper.toDTO(recordFound); /**retornando para front */
 
         }).orElseThrow(() -> new RecordNotFoundException(id));
     }
