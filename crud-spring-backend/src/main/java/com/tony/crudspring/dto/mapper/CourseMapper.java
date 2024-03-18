@@ -45,7 +45,7 @@ public class CourseMapper {
         }
         course.setName(courseDTO.name());
         course.setCategory(convertCategoryValue(courseDTO.category()));
-        course.setStatus("active");
+        //course.setStatus("active");
         List<Lesson> lessons = courseDTO.lessons().stream().map(lessonDTO -> {
             /** Lesson */
             var locaLesson = new Lesson(); /** Opcional de não Setar */

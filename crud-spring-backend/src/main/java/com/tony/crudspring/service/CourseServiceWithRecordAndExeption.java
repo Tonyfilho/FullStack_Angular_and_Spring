@@ -4,11 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import com.tony.crudspring.dto.CourseDTOWithRecord;
+import com.tony.crudspring.dto.CoursePageDTO;
 import com.tony.crudspring.dto.LessonDTOWithRecord;
 import com.tony.crudspring.dto.mapper.CourseMapper;
 import com.tony.crudspring.exception.RecordNotFoundException;
@@ -18,8 +21,10 @@ import com.tony.crudspring.repository.CourseRepository;
 import com.tony.crudspring.repository.LessonRepository;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
 
 @Service
 @Validated
@@ -66,6 +71,19 @@ public class CourseServiceWithRecordAndExeption {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * @return
+     */
+    public CoursePageDTO listAllWithPage(@PositiveOrZero int totalElments, @Positive @Max(100) int totalPages) {
+        /** Recebendo todas as paginas, o ORM (Hibernate) ja faz isto a paginação */
+        Page<Course> page = courseRepository.findAll(PageRequest.of(totalElments, totalPages));
+        /** Transformando em CourseDTO */
+        List<CourseDTOWithRecord> courseDTO = page.get().map(courseMapper::toDTO).collect(Collectors.toList());
+        /** Retornando o DTO da Paginação */
+        return new CoursePageDTO(courseDTO, page.getTotalElements(), page.getTotalPages());
+       
+    }
+
     public CourseDTOWithRecord create(@Valid @NotNull CourseDTOWithRecord courseDTOWithRecord) {
         return this.courseMapper.toDTO(courseRepository.save(courseMapper.toEntity(courseDTOWithRecord)));
 
@@ -87,15 +105,19 @@ public class CourseServiceWithRecordAndExeption {
              */
             recordFound.getLessons().clear(); /** Lista de cursos da DB */
             Course localCourseFromFrontCourse = courseMapper.toEntity(courseDTO); /**
-                                                                    * Todas cursos e liçoes que vem do DTO ou seja front
-                                                                    */
+                                                                                   * Todas cursos e liçoes que vem do
+                                                                                   * DTO ou seja front
+                                                                                   */
             /*
              * / localCourseFromFrontCourse.getLessons().forEach(lesson ->
              * recordFound.getLessons().add(lesson)); ou assim usando Method reference
              */
-            localCourseFromFrontCourse.getLessons().forEach(recordFound.getLessons()::add); /**Pegando cada item q vem do DTO e adcionando na DB */
-            courseRepository.save(recordFound); /**Salvando na DB */
-            return courseMapper.toDTO(recordFound); /**retornando para front */
+            localCourseFromFrontCourse.getLessons().forEach(recordFound.getLessons()::add); /**
+                                                                                             * Pegando cada item q vem
+                                                                                             * do DTO e adcionando na DB
+                                                                                             */
+            courseRepository.save(recordFound); /** Salvando na DB */
+            return courseMapper.toDTO(recordFound); /** retornando para front */
 
         }).orElseThrow(() -> new RecordNotFoundException(id));
     }

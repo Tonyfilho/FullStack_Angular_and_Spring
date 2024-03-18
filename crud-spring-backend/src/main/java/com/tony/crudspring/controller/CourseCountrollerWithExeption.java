@@ -12,15 +12,20 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tony.crudspring.dto.CourseDTOWithRecord;
+import com.tony.crudspring.dto.CoursePageDTO;
 import com.tony.crudspring.service.CourseServiceWithRecordAndExeption;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
+import jakarta.websocket.server.PathParam;
 
 @Validated // @Validated serve p as validações Locais Ex: locais @NotNull @Positive
            // funcione somente nos parametros dos mehodos e não as da entidade
@@ -41,6 +46,12 @@ public class CourseCountrollerWithExeption {
     @GetMapping
     public List<CourseDTOWithRecord> list() {
         return courseServiceWithExeption.list();
+    }
+
+    @GetMapping("/paginator")
+    public CoursePageDTO listAllWithPage(@PathParam("/paginator") @PositiveOrZero @RequestParam(defaultValue="0") int page,
+     @Positive @Max(100) @RequestParam(defaultValue="10") int pageSize) {
+        return courseServiceWithExeption.listAllWithPage(page, pageSize);
     }
 
     @GetMapping("/{id}")

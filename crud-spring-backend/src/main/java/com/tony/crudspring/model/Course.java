@@ -44,7 +44,7 @@ public class Course {
     @Column(length = 100, nullable = false)
     private String name;
 
-    // @Length(max = 100)  /**Foi mudado de string para ENUNS */
+    // @Length(max = 100) /**Foi mudado de string para ENUNS */
     // @Pattern(regexp = "back-end|front-end") /**Foi mudado de string para ENUNS */
     // @Column(length = 10, nullable = false) /**Foi mudado de string para ENUNS */
     // @NotBlank
@@ -57,7 +57,7 @@ public class Course {
     @NotBlank
     @Pattern(regexp = "active|inactive")
     @Column(length = 10, nullable = false)
-    private String status = "active";
+    private String status = "active"; // setado no Mapper
 
     /**
      * 1 para muitos desta forma aqui é economizado perfomace pois temos menos uma
@@ -73,9 +73,9 @@ public class Course {
                                                                                       * Course será tb removido da
                                                                                       * entidade Lesson estes dados
                                                                                       */
-       @NotNull
-       @NotEmpty /**Tem q ter pelo menos 1 lesson */
-       @Valid                                                                              
+    @NotNull
+    @NotEmpty /** Tem q ter pelo menos 1 lesson */
+    @Valid
 
     private List<Lesson> lessons = new ArrayList<>();
 }

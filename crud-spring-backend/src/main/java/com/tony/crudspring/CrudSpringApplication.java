@@ -20,7 +20,6 @@ public class CrudSpringApplication {
 		SpringApplication.run(CrudSpringApplication.class, args);
 	}
 
-
 	/**So para titulo, estaremos iniciando e abastecendo o banco de dados aqui, isto é errado, mas é didatico */
 	@Bean
 	CommandLineRunner initDataBase (CourseRepository courseRepository) {
@@ -35,39 +34,45 @@ public class CrudSpringApplication {
 		 * 4ª Salvar na DB
 		 * 
 		 */
+
 		return args -> {
-               courseRepository.deleteAll(); // limpando o que existir
-			   Course localCourse = new Course();
-			   localCourse.setName("Angular Com Spring");
-			   localCourse.setCategory(Category.FRONT_END);
+			courseRepository.deleteAll(); // limpando o que existir
+		 for(int i = 0; i< 20; i++) {
+					Course c = new Course();
+					c.setName("Angular Com Spring" +i);
+					c.setCategory(Category.FRONT_END);			
+					
+					Lesson locaLesson = new Lesson();
+					locaLesson.setName("Introduction");
+					locaLesson.setYoutubeUrl("vRf1-Z4_7vI?si=ms6gI1ymDnpcOm");
+					locaLesson.setCourse(c); /** setando o Objeto Course dentro da Entidade Lesson */
+					c.getLessons().add(locaLesson);
+					//courseRepository.save(c);
 
-			   Lesson locaLesson = new Lesson();
-			   locaLesson.setName("Introduction");
-			   locaLesson.setYoutubeUrl("vRf1-Z4_7vI?si=ms6gI1ymDnpcOmKp");
-			   locaLesson.setCourse(localCourse); /** setando o Objeto Course dentro da Entidade Lesson */
-			   localCourse.getLessons().add(locaLesson);
-			   courseRepository.save(localCourse);
+					Lesson l2 = new Lesson();
+					l2.setName("Angular");
+					l2.setYoutubeUrl("vRf1-Z4_7vI?si=ms6gI1ymDnpcOm");
+					l2.setCourse(c); /** setando o Objeto Course dentro da Entidade Lesson */
+					c.getLessons().add(l2);
+					courseRepository.save(c);
+			 };
 
-			   Lesson locaLesson2 = new Lesson();
-			   locaLesson2.setName("Angular");
-			   locaLesson2.setYoutubeUrl("vRf1-Z4_7vI?si=ms6gI1ymDnpcOmKp");
-			   locaLesson2.setCourse(localCourse); /** setando o Objeto Course dentro da Entidade Lesson */
-			   localCourse.getLessons().add(locaLesson2);
-			   courseRepository.save(localCourse);
-		};
+		 };
+		 
 	}
+
 	@Bean
-	CommandLineRunner initDataBaseWithEnums (CourseWithEnumsRepository CourseWithEnumsRepository) {
+	CommandLineRunner initDataBaseWithEnums(CourseWithEnumsRepository CourseWithEnumsRepository) {
 		return args -> {
 			CourseWithEnumsRepository.deleteAll(); // limpando o que existir
-			   CourseWithEnums localCourse = new CourseWithEnums();
-			   LessonWithEnums locaLesson = new LessonWithEnums();
-			   localCourse.setName("Java");
-			   localCourse.setCategory(Category.BACK_END);
-			   locaLesson.setName("Introduction");
-			   locaLesson.setYoutubeUrl("vRf1-Z4_7vI?si=ms6gI1ymDnpcOmKp");
-			 //  localCourse.getLessons().add(locaLesson);
-			   CourseWithEnumsRepository.save(localCourse);
+			CourseWithEnums localCourse = new CourseWithEnums();
+			LessonWithEnums locaLesson = new LessonWithEnums();
+			localCourse.setName("Java");
+			localCourse.setCategory(Category.BACK_END);
+			locaLesson.setName("Introduction");
+			locaLesson.setYoutubeUrl("vRf1-Z4_7vI?si=ms6gI1ymDnpcOmKp");
+			// localCourse.getLessons().add(locaLesson);
+			CourseWithEnumsRepository.save(localCourse);
 		};
 	}
 }
