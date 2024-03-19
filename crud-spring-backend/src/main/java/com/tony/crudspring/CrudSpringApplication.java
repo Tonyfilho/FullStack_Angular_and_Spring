@@ -4,6 +4,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Profile;
 
 import com.tony.crudspring.enums.Category;
 import com.tony.crudspring.model.Course;
@@ -22,6 +23,7 @@ public class CrudSpringApplication {
 
 	/**So para titulo, estaremos iniciando e abastecendo o banco de dados aqui, isto é errado, mas é didatico */
 	@Bean
+	@Profile("dev") /**Temos que especificar  o profile, q neste caso será o DEv do application-dev */
 	CommandLineRunner initDataBase (CourseRepository courseRepository) {
 		/**
 		 * Obs: Quando temos relacionamento entre ENTYTES
@@ -61,18 +63,18 @@ public class CrudSpringApplication {
 		 
 	}
 
-	@Bean
-	CommandLineRunner initDataBaseWithEnums(CourseWithEnumsRepository CourseWithEnumsRepository) {
-		return args -> {
-			CourseWithEnumsRepository.deleteAll(); // limpando o que existir
-			CourseWithEnums localCourse = new CourseWithEnums();
-			LessonWithEnums locaLesson = new LessonWithEnums();
-			localCourse.setName("Java");
-			localCourse.setCategory(Category.BACK_END);
-			locaLesson.setName("Introduction");
-			locaLesson.setYoutubeUrl("vRf1-Z4_7vI?si=ms6gI1ymDnpcOmKp");
-			// localCourse.getLessons().add(locaLesson);
-			CourseWithEnumsRepository.save(localCourse);
-		};
-	}
+	// @Bean
+	// CommandLineRunner initDataBaseWithEnums(CourseWithEnumsRepository CourseWithEnumsRepository) {
+	// 	return args -> {
+	// 		CourseWithEnumsRepository.deleteAll(); // limpando o que existir
+	// 		CourseWithEnums localCourse = new CourseWithEnums();
+	// 		LessonWithEnums locaLesson = new LessonWithEnums();
+	// 		localCourse.setName("Java");
+	// 		localCourse.setCategory(Category.BACK_END);
+	// 		locaLesson.setName("Introduction");
+	// 		locaLesson.setYoutubeUrl("vRf1-Z4_7vI?si=ms6gI1ymDnpcOmKp");
+	// 		// localCourse.getLessons().add(locaLesson);
+	// 		CourseWithEnumsRepository.save(localCourse);
+	// 	};
+	// }
 }
