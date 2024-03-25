@@ -8,11 +8,8 @@ import org.springframework.context.annotation.Profile;
 
 import com.tony.crudspring.enums.Category;
 import com.tony.crudspring.model.Course;
-import com.tony.crudspring.model.CourseWithEnums;
 import com.tony.crudspring.model.Lesson;
-import com.tony.crudspring.model.LessonWithEnums;
 import com.tony.crudspring.repository.CourseRepository;
-import com.tony.crudspring.repository.CourseWithEnumsRepository;
 
 @SpringBootApplication
 public class CrudSpringApplication {
